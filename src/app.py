@@ -18,8 +18,11 @@ def add_new_todo():
 
 @app.route('/todos/<int:position>', methods=['DELETE'])
 def delete_todo(position):
-    del todos[position]
-    return jsonify(todos)
+    try:
+        removed_todo = todos.pop(position)
+        return jsonify({"message": f"Tarea eliminada: {removed_todo}"})
+    except IndexError:
+        return jsonify({"error": "La posición no es válida"})
 
 # Estas dos líneas siempre deben estar al final de tu archivo app.py
 if __name__ == '__main__':
